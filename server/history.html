@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta http-equiv="Content-Type" content="text/html;charset=ISO-8859-1">
+<head>
+  <title>Thermostat history example</title>
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <div id="gauge_div" style="width:280px; height: 140px;"></div>
+  <script type="text/javascript">
+   google.charts.load('current', {packages: ['corechart', 'line']});
+   google.charts.load('current', {packages: ['corechart', 'bar']});
+   google.charts.setOnLoadCallback(drawTemp);
+   google.charts.setOnLoadCallback(drawHumi);
+
+   function drawTemp() {
+         var data = new google.visualization.DataTable();
+         data.addColumn('date', 'Date');
+         data.addColumn('number', 'Temp');
+
+
+         data.addRows([{{range .Temp}}
+     				[new Date({{.Date}}), {{.Value}}],
+     		{{end}} ]);
+
+         var options = {
+           hAxis: {
+             title: 'Time',
+             slandedText: true
+           },
+           vAxis: {
+             title: 'Temperature'
+           }
+         };
+
+         var chart = new google.visualization.LineChart(document.getElementById('temp_div'));
+         chart.draw(data, options);
+       }
+
+    function drawHumi() {
+             var data = new google.visualization.DataTable();
+             data.addColumn('date', 'Date');
+             data.addColumn('number', 'Humidity');
+
+             data.addRows([{{range .Humi}}
+                 [new Date({{.Date}}), {{.Value}}],
+             {{end}} ]);
+
+             var options = {
+               hAxis: {
+                 title: 'Time',
+                 slandedText: true
+               },
+               vAxis: {
+                 title: 'Humidity'
+               }
+             };
+
+             var chart = new google.visualization.LineChart(document.getElementById('humi_div'));
+             chart.draw(data, options);
+           }
+</script>
+</head>
+<body>
+  <div id="temp_div" ></div>
+  <div id="humi_div" ></div>
+
+</body>
+</html>

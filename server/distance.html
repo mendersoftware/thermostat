@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Distance sensor websocket example</title>
+<script type="text/javascript">
+window.onload = function () {
+    var conn;
+    var log = document.getElementById("log");
+    var status = document.getElementById("status");
+    function appendLog(item) {
+        if (log.hasChildNodes()) {
+          log.replaceChild(item, log.lastChild);
+        } else {
+          log.appendChild(item);
+        }
+    }
+    function setDetected() {
+      status.style.background = "RED"
+    }
+    function setNotDetected() {
+      status.style.background = "LIME"
+    }
+    function setNotConnected() {
+      status.style.background = "SILVER"
+    }
+
+    if (window["WebSocket"]) {
+        conn = new WebSocket("ws://" + document.location.host + "/ws");
+        conn.onclose = function (evt) {
+            var item = document.createElement("div");
+            item.innerHTML = "<b>Connection closed.</b>";
+            appendLog(item);
+            setNotConnected();
+        };
+        conn.onmessage = function (evt) {
+            var messages = evt.data.split('\n');
+            for (var i = 0; i < messages.length; i++) {
+                var item = document.createElement("div");
+                item.innerText = messages[i];
+                appendLog(item);
+
+                if (messages[i].includes("in")) {
+                    setDetected();
+                } else {
+                    setNotDetected();
+                }
+            }
+        };
+    } else {
+        var item = document.createElement("div");
+        item.innerHTML = "<b>Your browser does not support WebSockets.</b>";
+        appendLog(item);
+    }
+};
+</script>
+<style type="text/css">
+#log {
+    background: white;
+    margin: 0;
+    margin-bottom: 20px;
+    padding: 0.5em 0.5em 0.5em 0.5em;
+    top: 0.5em;
+    left: 0.5em;
+    right: 0.5em;
+    bottom: 3em;
+}
+
+.circleBase {
+    border-radius: 50%;
+    width: 200px;
+    height: 200px;
+    border: 5px solid teal;
+}
+
+</style>
+</head>
+<body>
+  <div id="log"></div>
+  <div id="status" class="circleBase"></div>
+</body>
+</html>
