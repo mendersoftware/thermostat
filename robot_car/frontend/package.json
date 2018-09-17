@@ -1,0 +1,26 @@
+{
+  "name": "parcel",
+  "version": "1.0.0",
+  "description": "Controlled car frontend application.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "parcel index.html",
+    "build": "parcel build index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
+    "nipplejs": "^0.7.1",
+    "react": "^16.4.2",
+    "react-dom": "^16.4.2",
+    "react-timer-mixin": "^0.13.4",
+    "socket.io-client": "^2.1.1"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.3"
+  }
+}
